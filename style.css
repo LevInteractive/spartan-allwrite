@@ -1,0 +1,76 @@
+.allwrite-docs {
+  display: flex;
+  min-height: 100%;
+  font-family: Helvetica, Sans-Serif;
+  font-weight: 300;
+  font-size: 16px;
+}
+
+.allwrite-docs * {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.__AWD__sidebar, .__AWD__content {
+  justify-content: space-between;
+}
+
+.__AWD__search-input {
+  font-family: Helvetica, Sans-Serif;
+  background: #111;
+  border: none;
+  padding: 10px;
+  color: white;
+  width: 100%;
+  outline: none;
+  font-size: 14px;
+  display: block;
+  margin-bottom: 30px;
+}
+
+.__AWD__sidebar {
+  width: 30%;
+  background: #333;
+  color: white;
+  padding: 30px;
+}
+.__AWD__sidebar a {
+  color: white;
+  text-decoration: none;
+}
+.__AWD__sidebar span {
+  color: #ccc;
+  text-transform: uppercase;
+}
+.__AWD__sidebar ul {
+  margin: 0;
+  padding: 0;
+}
+.__AWD__sidebar ul > ul {
+  margin-left: 15px;
+}
+.__AWD__sidebar li {
+  margin-bottom: 10px;
+  list-style: none;
+}
+.__AWD__content {
+  flex: 1;
+  padding: 30px;
+}
+.__AWD__content h1,
+.__AWD__content h2,
+.__AWD__content h3,
+.__AWD__content h4,
+.__AWD__content h5,
+.__AWD__content h6 {
+  font-family: Georgia, Times, "Times New Roman", serif;
+  margin: 0 0 15px;
+  padding: 0;
+}
+
+.__AWD__content h1 { font-size: 60px; }
+.__AWD__content h2 { font-size: 45px; }
+.__AWD__content h3 { font-size: 30px; }
