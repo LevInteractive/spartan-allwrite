@@ -88,6 +88,13 @@
   flex: 1;
   padding: 30px;
 }
+.__AWD__content img {
+  max-width: 100%;
+  display: block;
+  margin: 10px 0 25px;
+  padding: 0;
+  border: none;
+}
 .__AWD__content h1,
 .__AWD__content h2,
 .__AWD__content h3,
@@ -106,7 +113,6 @@
 .__AWD__content pre {
   margin: 20px 0;
 }
-
 
 .__AWD__content h1 { font-size: 60px; }
 .__AWD__content h2 { font-size: 45px; }
