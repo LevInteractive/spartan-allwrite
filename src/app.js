@@ -1,3 +1,16 @@
+/**
+ * Welcome to Sparta.
+ *
+ * Browser dependencies to run this file:
+ *
+ * * const, let
+ * * promises
+ * * fetch
+ *
+ * ---
+ * If you use the minified version, this should not be an issue because babel
+ * and polyfills.
+ */
 (function(app) {
   app.apiURL = '';
   app.containerEl = null;
@@ -60,6 +73,7 @@
   }
 
   function configureSearch() {
+    let resultsListEl = null;
     app.searchBoxEl.addEventListener("input", function(e) {
       const v = this.value;
       const evtData = {
@@ -88,6 +102,35 @@
     });
   }
 
+  function createLink(parentEl, url, text) {
+    const onPageChange = function() {
+      a.classList.remove("active");
+    };
+    const onClick = function(e) {
+      event.preventDefault();
+      populateContent(url);
+      app.sidebarEl.dispatchEvent(new Event('pagechange'));
+      a.classList.add("active");
+    };
+    const a = document.createElement("a");
+    parentEl.appendChild(a);
+    a.href = url;
+    a.innerHTML = text;
+
+    app.sidebarEl.addEventListener("pagechange", onPageChange);
+    a.addEventListener("click", onClick, false);
+
+    // This event gets called when search results are cleared. It makes sure
+    // there are no memory leaks.
+    app.sidebarEl.addEventListener("clearSearchResults", function destroyfn() {
+      a.removeEventListener("click", onClick);
+      app.sidebarEl.removeEventListener("pagechange", onPageChange);
+      parentEl.removeEventListener("clearSearchResults", destroyfn);
+    });
+
+    return a;
+  }
+
   function createMenuLi(data) {
     const li = document.createElement("li");
     if (data.type === "dir") {
@@ -95,26 +138,7 @@
       li.appendChild(span);
       span.innerHTML = data.name;
     } else {
-      const a = document.createElement("a");
-      const onPageChange = function() {
-        a.classList.remove("active");
-      };
-      const onClick = function(e) {
-        event.preventDefault();
-        populateContent(app.apiURL + "/" + data.slug);
-        app.sidebarEl.dispatchEvent(new Event('pagechange'));
-        a.classList.add("active");
-      };
-      li.appendChild(a);
-      a.href = data.slug;
-      a.innerHTML = data.name;
-      app.sidebarEl.addEventListener("pagechange", onPageChange);
-      a.addEventListener("click", onClick, false);
-      li.addEventListener("destroy", function destroyfn() {
-        a.removeEventListener("click", onClick);
-        app.sidebarEl.removeEventListener("pagechange", onPageChange);
-        li.removeEventListener("destroy", destroyfn);
-      });
+      createLink(li, app.apiURL + "/" + data.slug, data.name);
     }
     return li;
   }
