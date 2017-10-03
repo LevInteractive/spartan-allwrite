@@ -3,6 +3,8 @@
 This is a minimal theme for [Allwrite Docs](https://github.com/LevInteractive/allwrite-docs/). It
 has zero dependencies and is built for speed.
 
+For what it's worth, the file is 3k.
+
 ## Demo
 
 Coming soon.
