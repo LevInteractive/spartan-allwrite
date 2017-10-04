@@ -17,9 +17,12 @@
   app.sidebarEl = null;
   app.contentEl = null;
   app.searchBoxEl = null;
+  app.contentCache = "";
 
   // All classes get prefixed with this.
   const _awd = '__AWD__';
+
+  const loaderDiv = "<div class='__AWD__loader'>Loading...</div>";
 
   function query(url) {
     return fetch(url).then(
@@ -30,6 +33,11 @@
   }
 
   function populateContent(url) {
+
+    // Reset the content cache and implement a loader div.
+    app.contentCache = "";
+    app.contentEl.innerHTML = loaderDiv;
+
     query(url ? url : app.apiURL).then(function(json) {
       app.contentEl.innerHTML = json.result.html;
 
@@ -41,6 +49,10 @@
           hljs.highlightBlock(snippet);
         });
       }
+
+      // Cache our ready content so we can remove it and easily add it again
+      // later.
+      app.contentCache = app.contentEl.innerHTML;
     });
   }
 
@@ -60,43 +72,42 @@
       const ul = document.createElement("ul");
       app.sidebarEl.appendChild(ul);
       build(ul, json.result);
-
-      // When in search mode, add a class to the top level <ul />.
-      app.sidebarEl.addEventListener("searchmode", function(data) {
-        if (data.detail.searching) {
-          ul.classList.add("searching");
-        } else {
-          ul.classList.remove("searching");
-        }
-      });
     });
   }
 
   function configureSearch() {
-    let resultsListEl = null;
     app.searchBoxEl.addEventListener("input", function(e) {
       const v = this.value;
-      const evtData = {
-        detail: {
-          searching: false
-        }
-      };
 
-      if (v) {
-        evtData.detail.searching = true;
-        app.sidebarEl.dispatchEvent(new CustomEvent("searchmode", evtData));
+      if (v && v.length > 2) {
+        app.contentEl.innerHTML = loaderDiv;
       } else {
-        app.sidebarEl.dispatchEvent(new CustomEvent("searchmode", evtData));
+        app.contentEl.innerHTML = app.contentCache;
+        return;
       }
 
       query(app.apiURL + '/?q=' + encodeURIComponent(v)).then(
         function(json) {
           if (json.result) {
+            app.contentEl.innerHTML = "";
+            json.result.forEach(function(row) {
+              const rowEl = document.createElement("div");
+              const pEl = document.createElement("p");
+              const a = createLink(
+                rowEl,
+                row.slug,
+                row.name
+              );
+              rowEl.classList.add(_awd + "result-row");
+              rowEl.appendChild(a);
+              rowEl.appendChild(pEl);
+              pEl.innerHTML = row.reltext;
 
+              app.contentEl.appendChild(rowEl);
+            });
           } else {
-
+            app.contentEl.innerHTML = "No results found.";
           }
-          console.log(json);
         }
       );
     });
@@ -119,14 +130,6 @@
 
     app.sidebarEl.addEventListener("pagechange", onPageChange);
     a.addEventListener("click", onClick, false);
-
-    // This event gets called when search results are cleared. It makes sure
-    // there are no memory leaks.
-    app.sidebarEl.addEventListener("clearSearchResults", function destroyfn() {
-      a.removeEventListener("click", onClick);
-      app.sidebarEl.removeEventListener("pagechange", onPageChange);
-      parentEl.removeEventListener("clearSearchResults", destroyfn);
-    });
 
     return a;
   }
