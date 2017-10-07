@@ -1,0 +1,17 @@
+{
+  "name": "spartan-example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "allwrite-middleware-connect": "^1.0.1",
+    "express": "^4.16.1",
+    "pug": "^2.0.0-rc.4"
+  }
+}

@@ -12,7 +12,11 @@
  * and polyfills.
  */
 (function(app) {
+  // This can be used to determine where the URL starting point is. Default is
+  // assuming that it's at the root.
+  app.root = "/";
   app.apiURL = '';
+
   app.containerEl = null;
   app.sidebarEl = null;
   app.contentEl = null;
@@ -22,8 +26,10 @@
   // All classes get prefixed with this.
   const _awd = '__AWD__';
 
+  // This will be displayed when content is loading.
   const loaderDiv = "<div class='__AWD__loader'>Loading...</div>";
 
+  // Wrapper for fetch.
   function query(url) {
     return fetch(url).then(
       function(response) {
@@ -32,13 +38,34 @@
     );
   }
 
-  function populateContent(url) {
+  // Returns a path with no trailing or leading path. An empty string means
+  // root - no base slug.
+  function getRoot() {
+    return (app.root || "").replace(/^\/|\/$/g, "");
+  }
 
+  function uri(newUri, newTitle) {
+    if (typeof newUri === "string" && typeof newTitle === "string") {
+      const root = getRoot();
+      const slug = "/" + newUri;
+      history.pushState(
+        null,
+        newTitle,
+        root ? "/" + root + slug : slug
+      );
+    } else {
+      return location.pathname
+        .replace(app.root, "")
+        .replace(/^\/|\/$/g, "");
+    }
+  }
+
+  function populateContent(url) {
     // Reset the content cache and implement a loader div.
     app.contentCache = "";
     app.contentEl.innerHTML = loaderDiv;
 
-    query(url ? url : app.apiURL).then(function(json) {
+    query(url ? url : app.apiURL + "/" + uri()).then(function(json) {
       app.contentEl.innerHTML = json.result.html;
 
       // Apply syntax highligting to code blocks if hljs is included. We could
@@ -72,11 +99,14 @@
       const ul = document.createElement("ul");
       app.sidebarEl.appendChild(ul);
       build(ul, json.result);
+      app.sidebarEl.dispatchEvent(new CustomEvent("forceactive", {
+        detail: uri()
+      }));
     });
   }
 
   function configureSearch() {
-    app.searchBoxEl.addEventListener("input", function(e) {
+    app.searchBoxEl.addEventListener("input", function searchInputHandler(e) {
       const v = this.value;
 
       if (v && v.length > 2) {
@@ -87,7 +117,7 @@
       }
 
       query(app.apiURL + '/?q=' + encodeURIComponent(v)).then(
-        function(json) {
+        function searchRemoteResponseHandler(json) {
           if (json.result) {
             app.contentEl.innerHTML = "";
             json.result.forEach(function(row) {
@@ -113,7 +143,8 @@
     });
   }
 
-  function createLink(parentEl, url, text) {
+  function createLink(parentEl, data) {
+    const url = app.apiURL + "/" + data.slug;
     const onPageChange = function() {
       a.classList.remove("active");
     };
@@ -122,13 +153,21 @@
       populateContent(url);
       app.sidebarEl.dispatchEvent(new Event('pagechange'));
       a.classList.add("active");
+      uri(data.slug, data.name);
+    };
+    const forceActive = function(e) {
+      a.classList.remove("active");
+      if (data.slug === e.detail) {
+        a.classList.add("active");
+      }
     };
     const a = document.createElement("a");
     parentEl.appendChild(a);
     a.href = url;
-    a.innerHTML = text;
+    a.innerHTML = data.name;
 
     app.sidebarEl.addEventListener("pagechange", onPageChange);
+    app.sidebarEl.addEventListener("forceactive", forceActive);
     a.addEventListener("click", onClick, false);
 
     return a;
@@ -141,7 +180,7 @@
       li.appendChild(span);
       span.innerHTML = data.name;
     } else {
-      createLink(li, app.apiURL + "/" + data.slug, data.name);
+      createLink(li, data, app.apiURL + "/" + data.slug, data.name);
     }
     return li;
   }
@@ -154,6 +193,7 @@
     app.searchBoxEl = document.createElement("input");
 
     app.apiURL = app.containerEl.dataset.api;
+    app.root = app.containerEl.dataset.root ? app.containerEl.dataset.root : "/";
 
     if (!app.apiURL) {
       throw new Error("You must set the url to the Allwrite API.");
