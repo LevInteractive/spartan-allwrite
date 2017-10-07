@@ -125,8 +125,7 @@
               const pEl = document.createElement("p");
               const a = createLink(
                 rowEl,
-                row.slug,
-                row.name
+                row
               );
               rowEl.classList.add(_awd + "result-row");
               rowEl.appendChild(a);

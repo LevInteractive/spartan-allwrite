@@ -2,12 +2,16 @@ const express = require('express')
 const allwrite = require('allwrite-middleware-connect');
 const app = express()
 
+// Let's use pug!
 app.set('view engine', 'pug')
 
-app.get('/', (req, res) => {
-  res.send('check out our docs! at <a href="/docs">/docs</a>')
-})
+// You could optionally make the docs feed from the root, but let's use /docs
+// instead to demonstrate how to have a base URL.
+app.get('/', (req, res) => res.send('<a href="/docs">/docs</a>'))
 
+// 1) Listen to /docs/*
+// 2) Pass in the middleware
+// 3) Pass data to pug template.
 app.get(
   '/docs/:slug?',
   allwrite("http://localhost:8000", "/docs"),
@@ -29,6 +33,4 @@ app.use(express.static(
   require('path').resolve(__dirname, '../', 'src')
 ));
 
-app.listen(3000, () => {
-  console.log('Example app listening on port 3000!')
-});
+app.listen(3000, () => console.log('Example app listening on port 3000!'));

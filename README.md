@@ -6,8 +6,6 @@ has zero dependencies and is built for speed.
 You can use the latest and greatest libraries (react, redux, etc) with allwrite, but the goal
 of this library is to minimal, fast, and not require compilation to run.
 
-For what it's worth, the file is 3k.
-
 ## Local Demo
 
 Once you have a local or remote allwrite server running, simply `cd` to

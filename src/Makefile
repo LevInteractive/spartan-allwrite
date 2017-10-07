@@ -1,4 +1,4 @@
-all: spartan.min.js
+all: clean spartan.min.js
 
 spartan.min.js:
 	babel --minified \
@@ -6,3 +6,6 @@ spartan.min.js:
 		--no-babelrc \
 		-o spartan.min.js \
 		spartan.js
+
+clean:
+	rm spartan.min.js
