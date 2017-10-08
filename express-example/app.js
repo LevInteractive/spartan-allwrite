@@ -13,7 +13,7 @@ app.get('/', (req, res) => res.send('<a href="/docs">/docs</a>'))
 // 2) Pass in the middleware
 // 3) Pass data to pug template.
 app.get(
-  '/docs/:slug?',
+  '/docs/:slug*?',
   allwrite("http://localhost:8000", "/docs"),
   (req, res, next) => {
     if (req.allwriteData.code === 404) {
