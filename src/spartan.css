@@ -31,17 +31,15 @@
   color: white;
   width: 100%;
   outline: none;
-  font-size: 14px;
   display: block;
+  font-size: 16px;
   margin-bottom: 30px;
   border-bottom: 4px solid #734854;
   -webkit-transition: border-color 1s;
   -moz-transition: border-color 1s;
   transition: border-color 1s;
 }
-.__AWD__sidebar .__AWD__search-input:focus {
-  border-bottom: 4px solid white;
-}
+.__AWD__sidebar .__AWD__search-input:focus { border-bottom: 4px solid white; }
 .__AWD__sidebar .__AWD__search-input::-webkit-input-placeholder { color: #734854; }
 .__AWD__sidebar .__AWD__search-input::-moz-placeholder { color: #734854; }
 .__AWD__sidebar .__AWD__search-input:-ms-input-placeholder { color: #734854; }
@@ -52,6 +50,7 @@
   background: #400515;
   color: white;
   padding: 30px;
+  position: relative;
 }
 .__AWD__sidebar a,
 .__AWD__sidebar a:active,
@@ -61,13 +60,15 @@
   color: #F2F2F2;
   text-decoration: none;
   display: inline-block;
-  padding: 3px 10px;
-  -webkit-transition: color 0.3s;
-  -moz-transition: color 0.3s;
-  transition: color 0.3s;
+  padding: 1px 10px;
+  -webkit-transition: color 0.3s, padding 0.3s;
+  -moz-transition: color 0.3s, padding 0.3s;
+  transition: color 0.3s, padding 0.3s;
+  padding: 0;
+  font-size: 14px;
 }
 .__AWD__sidebar a:hover,
-.__AWD__sidebar a.active { color: #C3D973; }
+.__AWD__sidebar a.active { color: #C3D973; padding: 0 0 0 3px; }
 .__AWD__sidebar span {
   color: #9C6172;
   font-weight: 700;
@@ -76,22 +77,43 @@
   margin: 0;
   padding: 0;
 }
-.__AWD__sidebar ul.searching {
-  display: none;
-}
 .__AWD__sidebar ul > ul {
-  margin-left: 15px;
+  margin-left: 20px;
 }
 .__AWD__sidebar li {
-  margin-bottom: 1px;
   list-style: none;
+  margin: 6px 0;
+  border-bottom: 1px solid #6B0823;
+  padding: 0 0 6px;
 }
+.__AWD__poweredby {
+  font-size: 11px;
+  padding: 20px 0;
+  color: #ccc;
+}
+.__AWD__poweredby a,
+.__AWD__poweredby a:link,
+.__AWD__poweredby a:visited,
+.__AWD__poweredby a:active { color: #999; text-decoration: underline; }
+.__AWD__poweredby a:hover { color: #666; }
 
 /************* Content Area *******************/
 
 .__AWD__content {
   flex: 1;
   padding: 30px 80px;
+}
+.__AWD__content .__AWD__search-wrapper {
+  margin-bottom: 14px;
+  border-bottom: 1px solid #f1f1f1;
+}
+.__AWD__content .__AWD__search-wrapper input {
+  display: block;
+  outline: 0;
+  width: 100%;
+  padding: 20px 20px 20px 2px;
+  font-size: 16px;
+  border: none;
 }
 .__AWD__content img {
   max-width: 100%;
@@ -171,4 +193,3 @@
     transform: rotate(360deg);
   }
 }
-

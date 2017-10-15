@@ -44,6 +44,7 @@
     return (app.root || "").replace(/^\/|\/$/g, "");
   }
 
+  // If params are provided, the url will be set. If not, it will be returned.
   function uri(newUri, newTitle) {
     if (typeof newUri === "string" && typeof newTitle === "string") {
       const root = getRoot();
@@ -63,10 +64,10 @@
   function populateContent(url) {
     // Reset the content cache and implement a loader div.
     app.contentCache = "";
-    app.contentEl.innerHTML = loaderDiv;
+    app.dynamicContentEl.innerHTML = loaderDiv;
 
     query(url ? url : app.apiURL + "/" + uri()).then(function(json) {
-      app.contentEl.innerHTML = json.result.html;
+      app.dynamicContentEl.innerHTML = json.result.html;
 
       // Apply syntax highligting to code blocks if hljs is included. We could
       // support more highlighting libs here if requested.
@@ -79,7 +80,7 @@
 
       // Cache our ready content so we can remove it and easily add it again
       // later.
-      app.contentCache = app.contentEl.innerHTML;
+      app.contentCache = app.dynamicContentEl.innerHTML;
     });
   }
 
@@ -110,16 +111,16 @@
       const v = this.value;
 
       if (v && v.length > 2) {
-        app.contentEl.innerHTML = loaderDiv;
+        app.dynamicContentEl.innerHTML = loaderDiv;
       } else {
-        app.contentEl.innerHTML = app.contentCache;
+        app.dynamicContentEl.innerHTML = app.contentCache;
         return;
       }
 
       query(app.apiURL + '/?q=' + encodeURIComponent(v)).then(
         function searchRemoteResponseHandler(json) {
           if (json.result) {
-            app.contentEl.innerHTML = "";
+            app.dynamicContentEl.innerHTML = "";
             json.result.forEach(function(row) {
               const rowEl = document.createElement("div");
               const pEl = document.createElement("p");
@@ -132,10 +133,10 @@
               rowEl.appendChild(pEl);
               pEl.innerHTML = row.reltext;
 
-              app.contentEl.appendChild(rowEl);
+              app.dynamicContentEl.appendChild(rowEl);
             });
           } else {
-            app.contentEl.innerHTML = "No results found.";
+            app.dynamicContentEl.innerHTML = "No results found.";
           }
         }
       );
@@ -185,6 +186,10 @@
     return li;
   }
 
+  function createMobileMenu() {
+
+  }
+
   function clearSearch() {
     document.querySelector("." + _awd + "search-input").value = "";
   }
@@ -193,8 +198,11 @@
     app.containerEl = document.getElementById("allwrite-docs");
     app.sidebarEl = document.createElement("div");
     app.contentEl = document.createElement("div");
+    app.searchAreaEl = document.createElement("div");
     app.searchResultsEl = document.createElement("div");
     app.searchBoxEl = document.createElement("input");
+    app.dynamicContentEl = document.createElement("div");
+    app.allwriteEl = document.createElement("div");
 
     app.apiURL = app.containerEl.dataset.api;
     app.root = app.containerEl.dataset.root ? app.containerEl.dataset.root : "/";
@@ -207,10 +215,16 @@
     app.sidebarEl.className = _awd + 'sidebar';
     app.contentEl.className = _awd + 'content';
     app.searchBoxEl.className = _awd + 'search-input';
-    app.searchBoxEl.placeholder = "Search";
+    app.searchBoxEl.placeholder = "Search documentation";
+    app.searchAreaEl.className = _awd + 'search-wrapper';
+    app.allwriteEl.className = _awd + 'poweredby';
+    app.allwriteEl.innerHTML = "<p>Powered by <a href='https://github.com/LevInteractive/allwrite-docs'>Allwrite Docs</a>.</p>";
 
-    app.sidebarEl.appendChild(app.searchBoxEl);
-    app.sidebarEl.appendChild(app.searchResultsEl);
+    app.searchAreaEl.appendChild(app.searchBoxEl);
+    app.searchAreaEl.appendChild(app.searchResultsEl);
+    app.contentEl.appendChild(app.searchAreaEl);
+    app.contentEl.appendChild(app.dynamicContentEl);
+    app.contentEl.appendChild(app.allwriteEl);
     app.containerEl.appendChild(app.contentEl);
     app.containerEl.appendChild(app.sidebarEl);
   }

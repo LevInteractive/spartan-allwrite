@@ -22,9 +22,17 @@ app.get(
       err.code = 404;
       return next(err);
     }
+
+    // Build out a nice menu and prepend it to the content for SEO.
+    const menu = ["<nav><ul>"];
+    req.allwriteData.menu.map(item => {
+      menu.push("<li><a href='/" + item.slug + "'>" + item.name + "</a></li>");
+    });
+    menu.push("</ul></nav>");
+
     res.render("docs", {
-      title: req.allwriteData.result.name,
-      content: req.allwriteData.result.html,
+      title: req.allwriteData.page.name,
+      content: menu.join("") + req.allwriteData.page.html,
     });
   }
 )
