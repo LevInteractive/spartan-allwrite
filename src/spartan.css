@@ -36,6 +36,7 @@
   margin-bottom: 30px;
   border-bottom: 4px solid #734854;
   -webkit-transition: border-color 1s;
+  -moz-transition: border-color 1s;
   transition: border-color 1s;
 }
 .__AWD__sidebar .__AWD__search-input:focus {
@@ -61,6 +62,9 @@
   text-decoration: none;
   display: inline-block;
   padding: 3px 10px;
+  -webkit-transition: color 0.3s;
+  -moz-transition: color 0.3s;
+  transition: color 0.3s;
 }
 .__AWD__sidebar a:hover,
 .__AWD__sidebar a.active { color: #C3D973; }
