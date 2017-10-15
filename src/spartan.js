@@ -152,6 +152,7 @@
       populateContent(url);
       app.sidebarEl.dispatchEvent(new Event('pagechange'));
       a.classList.add("active");
+      clearSearch();
       uri(data.slug, data.name);
     };
     const forceActive = function(e) {
@@ -182,6 +183,10 @@
       createLink(li, data, app.apiURL + "/" + data.slug, data.name);
     }
     return li;
+  }
+
+  function clearSearch() {
+    document.querySelector("." + _awd + "search-input").value = "";
   }
 
   function main() {

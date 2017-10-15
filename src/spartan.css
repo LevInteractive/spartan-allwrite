@@ -21,39 +21,34 @@
 
 /************* Sidebar *******************/
 
-.__AWD__sidebar, .__AWD__content {
-  justify-content: space-between;
-}
+.__AWD__sidebar, .__AWD__content { justify-content: space-between; }
 
 .__AWD__sidebar .__AWD__search-input {
   font-family: Helvetica, Sans-Serif;
   background: transparent;
   border: none;
-  border-bottom: 4px solid #FDE297;
   padding: 5px 0;
-  color: #7D704B;
+  color: white;
   width: 100%;
   outline: none;
   font-size: 14px;
   display: block;
   margin-bottom: 30px;
+  border-bottom: 4px solid #734854;
+  -webkit-transition: border-color 1s;
+  transition: border-color 1s;
 }
-.__AWD__sidebar .__AWD__search-input::-webkit-input-placeholder {
-  color: #7D704B;
+.__AWD__sidebar .__AWD__search-input:focus {
+  border-bottom: 4px solid white;
 }
-.__AWD__sidebar .__AWD__search-input::-moz-placeholder {
-  color: pink;
-}
-.__AWD__sidebar .__AWD__search-input:-ms-input-placeholder {
-  color: pink;
-}
-.__AWD__sidebar .__AWD__search-input:-moz-placeholder {
-  color: pink;
-}
+.__AWD__sidebar .__AWD__search-input::-webkit-input-placeholder { color: #734854; }
+.__AWD__sidebar .__AWD__search-input::-moz-placeholder { color: #734854; }
+.__AWD__sidebar .__AWD__search-input:-ms-input-placeholder { color: #734854; }
+.__AWD__sidebar .__AWD__search-input:-moz-placeholder { color: #734854; }
 
 .__AWD__sidebar {
   width: 30%;
-  background: #fdf6e3;
+  background: #400515;
   color: white;
   padding: 30px;
 }
@@ -62,14 +57,15 @@
 .__AWD__sidebar a:link,
 .__AWD__sidebar a:visited,
 .__AWD__sidebar a {
-  color: #268bd2;
+  color: #F2F2F2;
   text-decoration: none;
+  display: inline-block;
+  padding: 3px 10px;
 }
-.__AWD__sidebar a:hover { color: #222; }
-.__AWD__sidebar a.active { font-weight: 700; }
+.__AWD__sidebar a:hover,
+.__AWD__sidebar a.active { color: #C3D973; }
 .__AWD__sidebar span {
-  color: #666;
-  text-transform: uppercase;
+  color: #9C6172;
   font-weight: 700;
 }
 .__AWD__sidebar ul {
@@ -83,7 +79,7 @@
   margin-left: 15px;
 }
 .__AWD__sidebar li {
-  margin-bottom: 10px;
+  margin-bottom: 1px;
   list-style: none;
 }
 
@@ -91,7 +87,7 @@
 
 .__AWD__content {
   flex: 1;
-  padding: 30px;
+  padding: 30px 80px;
 }
 .__AWD__content img {
   max-width: 100%;
@@ -122,6 +118,19 @@
   border-radius: 50%;
   width: 5em;
   height: 5em;
+}
+.__AWD__content .__AWD__result-row {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #f1f1f1;
+  padding: 0 0 20px;
+}
+.__AWD__content .__AWD__result-row a {
+  color: #400515;
+  text-decoration: none;
+  font-weight: 700;
+}
+.__AWD__content .__AWD__result-row p {
+  margin: 8px 0 5px;
 }
 .__AWD__content .__AWD__loader {
   margin: 30% auto 0;

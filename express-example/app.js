@@ -18,6 +18,7 @@ app.get(
   (req, res, next) => {
     if (req.allwriteData.code === 404) {
       const err = new Error("Page not found");
+      res.status(404);
       err.code = 404;
       return next(err);
     }
