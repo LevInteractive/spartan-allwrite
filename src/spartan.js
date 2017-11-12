@@ -186,10 +186,6 @@
     return li;
   }
 
-  function createMobileMenu() {
-
-  }
-
   function clearSearch() {
     document.querySelector("." + _awd + "search-input").value = "";
   }
