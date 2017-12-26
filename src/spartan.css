@@ -141,6 +141,21 @@
 .__AWD__content ul { list-style: disc; }
 .__AWD__content ol { list-style: decimal; }
 
+.__AWD__content code {
+  font-family: "Sans Mono", "Consolas", "Courier", monospace;
+}
+.__AWD__content pre > code {
+    line-height: 1.4;
+    padding: 0.5rem 2rem 0.8rem;
+    overflow-x: scroll;
+    white-space: pre;
+}
+.__AWD__content p > code {
+  display: inline-block;
+  padding: 4px;
+  background: #f1f1f1;
+}
+
 .__AWD__content .__AWD__loader,
 .__AWD__content .__AWD__loader:after {
   border-radius: 50%;
