@@ -132,7 +132,7 @@
   padding: 0;
 }
 .__AWD__content ul,
-.__AWD__content ol { margin: 10px 25px; }
+.__AWD__content ol { margin: 10px 25px 25px; }
 .__AWD__content pre { margin: 20px 0; }
 .__AWD__content h1 { font-size: 60px; }
 .__AWD__content h2 { font-size: 45px; }
